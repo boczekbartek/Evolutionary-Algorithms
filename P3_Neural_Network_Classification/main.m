@@ -23,19 +23,17 @@ dane(idx_poz,3)=wart_kl_poz;    %zmiana wartoœci etykiet klasy poz.
 dane(idx_neg,3)=wart_kl_neg;    %zmiana wartoœci etykiet klasy neg.
 %}
 % Uczenie sieci neuronowej 
-liczba_neuronow_ukrytych=5;
+liczba_neuronow_ukrytych=4;
 [net]=train_net(dane_tren(:,1),dane_tren(:,2),liczba_neuronow_ukrytych);
-odpSieci = net(dane_test(:,1)');
-
+odpSieciTest = net(dane_test(:,1)');
+odpSieciTren = net(dane_tren(:,1)');
 %Wykresy danych trenujacych oraz testujace
 figure
 subplot(2,1,1);
-plot(dane_tren(:,1),dane_tren(:,2));
+plot(dane_tren(:,1),dane_tren(:,2),'.',dane_tren(:,1),odpSieciTren);
 title('Dane trenujace');
+legend('Dane', 'Aproksymacja');
 subplot(2,1,2);
-plot(dane_test(:,1),dane_test(:,2));
-hold on;
-plot(dane_test(:,1),odpSieci)
-hold off;
+plot(dane_test(:,1),dane_test(:,2),'.',dane_test(:,1),odpSieciTest);
 title('Dane testujace');
 legend('Dane', 'Aproksymacja');
