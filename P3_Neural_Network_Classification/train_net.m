@@ -13,20 +13,21 @@ function [net]= train_net(train_set,labels,hidden_neurons_count)
     %funkcja ucz¹ca: gradient descent backpropagation - propagacja wsteczna
     %                   b³êdu    
     net=newff(train_set',labels',hidden_neurons_count,...
-              {'tansig', 'purelin'},'traingd');
+              {'tansig', 'purelin'},'trainlm');
           
     rand('state',sum(100*clock));           %inicjalizacja generatora liczb 
                                             %pseudolosowych
-	net=init(net);                          %inicjalizacja wag sieci
-    net.trainParam.goal = 0.01;             %warunek stopu - poziom b³êdu
-    net.trainParam.epochs = 100;            %maksymalna liczba epok
-    net.trainParam.showWindow = false;      %nie pokazywaæ okna z wykresami
-                                            %w trakcie uczenia
-    net=train(net,train_set',labels');      %uczenie sieci
+% 	net=init(net);                          %inicjalizacja wag sieci
+%     net.trainParam.goal = 0.01;             %warunek stopu - poziom b³êdu
+%     net.trainParam.epochs = 100;            %maksymalna liczba epok
+%     net.trainParam.showWindow = false;      %nie pokazywaæ okna z wykresami
+%                                             %w trakcie uczenia
+%     net=train(net,train_set',labels');      %uczenie sieci
     
     %zmiana funkcji ucz¹cej na: Levenberg-Marquardt backpropagation
     net.trainFcn = 'trainlm';
-    net.trainParam.goal = 0.01;             %warunek stopu - poziom b³êdu
+    net.lw{2,1} = (rand(1,hidden_neurons_count)-0.5)*0.3;
+    net.trainParam.goal = 0.00001;             %warunek stopu - poziom b³êdu
     net.trainParam.epochs = 200;            %maksymalna liczba epok
     net.trainParam.showWindow = false;      %nie pokazywaæ okna z wykresami
                                             %w trakcie uczenia
